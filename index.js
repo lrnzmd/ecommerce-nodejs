@@ -6,7 +6,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 mongoose.connect(process.env.MONGO_URL)
-        .then(() => console.log("mongo vive"))
+        .then(() => console.log("mongo connect"))
         .catch(err => console.log(err))
 
 app.listen(5000, () => {
