@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
             if (err) res.status(403).json("token is not valid")
             req.user = user
             next()
-            
+
         })
     } else {
         return res.status(401).json("you are not authorized!!!")
@@ -18,13 +18,27 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenandAuthorization = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.id === req.params.id || req.user.isAdmin){
+        if (req.user.id === req.params.id || req.user.isAdmin) {
             next()
-        } else{
+        } else {
             res.status(403).json("token is not valid!!!")
         }
     })
 }
 
 
-module.exports = { verifyToken, verifyTokenandAuthorization}
+const verifyTokenAndAdmin = (req, res, next) => {
+    verifyToken(req, res, () => {
+        if (req.user.isAdmin) {
+            next();
+        } else {
+            res.status(403).json("You are not alowed to do that!");
+        }
+    })
+}
+
+module.exports = {
+    verifyToken,
+    verifyTokenandAuthorization,
+    verifyTokenAndAdmin,
+};
