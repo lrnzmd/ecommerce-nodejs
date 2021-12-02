@@ -44,12 +44,23 @@ router.delete("/:id", verifyTokenandAuthorization, async (req, res) => {
 //GET USER
 router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
-    const user  = await User.findById(req.params.id);
-    const { password, ...others } = user._doc;  
+    const user  = await User.findById(req.params.id)
+    const { password, ...others } = user._doc
     res.status(200).json(others)
   } catch (err) {
     res.status(500).json(err);
   }
 })
+
+//GET ALL USERS
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const users = await User.find()
+    res.status(200).json(users)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+
 
 module.exports = router
